@@ -10,7 +10,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Board</servlet-name>
-		<url-pattern>/Board/*</url-pattern>
+		<url-pattern>/Board</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -29,5 +29,15 @@
 	<servlet-mapping>
 		<servlet-name>Logout</servlet-name>
 		<url-pattern>/Logout</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>Adding</servlet-name>
+		<servlet-class>AddingServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Adding</servlet-name>
+		<url-pattern>/Adding</url-pattern>
 	</servlet-mapping>
 </web-app>

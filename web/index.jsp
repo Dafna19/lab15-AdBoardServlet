@@ -8,10 +8,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
-    <title>$Title$</title>
+    <title>Home</title>
   </head>
   <body>
-  <a href="Board">Click here</a>
+  <a href="Board">View board</a>
   <br> or <a href="login.html">Login</a>
   </body>
 </html>

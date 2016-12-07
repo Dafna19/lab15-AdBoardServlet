@@ -4,9 +4,6 @@ import java.io.*;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- *
- */
 public class LoginServlet extends HttpServlet {
     private ConcurrentHashMap<String, String> users;
 

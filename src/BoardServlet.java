@@ -23,35 +23,25 @@ import java.util.LinkedList;
  * Добавить страницу администратора, который может удалять пользователей
  */
 public class BoardServlet extends HttpServlet {
-    private LinkedList<Ad> ads;
+    private LinkedList<Ad> ads = new LinkedList<>();
 
-    public void init() throws ServletException {
-        ads = new LinkedList<>();
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
             PrintWriter out = response.getWriter();
             response.setContentType("text/html");
             response.setCharacterEncoding("UTF-8");
             String uri = request.getRequestURI();
-            System.out.println("uri: " + uri);
-
+            System.out.println("uri: " + uri);///
 
             HttpSession session = request.getSession(false);//смотрим, есть ли сессия, false - новую не создаём
-            if (uri.equals("/Board/add")) {
-                String user = (String) session.getAttribute("name");
-                Ad adv = new Ad(user);
-                adv.setText(request.getParameter("text"));
+
+            Ad adv = (Ad)request.getAttribute("advert");
+            if(adv != null){
                 ads.add(adv);
-                ////
-                System.out.println(ads.getLast().getHeading());
-                System.out.println(ads.getLast().getText());
-                ////
             }
-//            out.println("You are logged in as " + session.getAttribute("name") + "<br>");
 
             if (session != null) {//уже вошли
+                //больше нет ошибки
                 request.getRequestDispatcher("links.html").include(request, response);
                 out.println("Hello, " + session.getAttribute("name"));
             } else {//еще не вошли
