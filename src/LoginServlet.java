@@ -1,3 +1,4 @@
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.*;
@@ -33,18 +34,26 @@ public class LoginServlet extends HttpServlet {
         String name = request.getParameter("name");
         String password = request.getParameter("password");
         PrintWriter out = response.getWriter();
+        ServletContext context = request.getServletContext();
+        String style = (String) context.getAttribute("style");
 
-        out.println("<html><body>");
+        context.setAttribute("list", users);
+
+        out.println("<html><body><link href=\"" + style + "\" rel=\"stylesheet\" type=\"text/css\"> ");
         if (users.containsKey(name) && password.equals(users.get(name))) {//вошли
-            request.getRequestDispatcher("links.html").include(request, response);
+            if (name.equals("admin"))
+                request.getRequestDispatcher("adminLinks.html").include(request, response);
+            else
+                request.getRequestDispatcher("links.html").include(request, response);
             out.println("Welcome, " + name + "!");
             HttpSession session = request.getSession();
             session.setAttribute("name", name);
-        }
-        else{
+        } else {
+            request.getRequestDispatcher("links.html").include(request, response);
             out.println("Incorrect username or password. Please, try again.");
             request.getRequestDispatcher("login.html").include(request, response);
         }
-
+        out.println("</html></body>");
+        out.close();
     }
 }

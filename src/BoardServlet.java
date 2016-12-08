@@ -3,6 +3,7 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.LinkedList;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Для того, чтобы разместить, необходимо ввести логин и пароль (пройти аутентификацию).
@@ -25,25 +26,38 @@ import java.util.LinkedList;
 public class BoardServlet extends HttpServlet {
     private LinkedList<Ad> ads = new LinkedList<>();
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             PrintWriter out = response.getWriter();
             response.setContentType("text/html");
             response.setCharacterEncoding("UTF-8");
             String uri = request.getRequestURI();
             System.out.println("uri: " + uri);///
+            ServletContext context = request.getServletContext();
+            context.setAttribute("style", "style2.css");
+            String style = (String) context.getAttribute("style");
+            System.out.println("style: " + style);///
+
+            context.setAttribute("adList", ads);
 
             HttpSession session = request.getSession(false);//смотрим, есть ли сессия, false - новую не создаём
 
-            Ad adv = (Ad)request.getAttribute("advert");
-            if(adv != null){
+            Ad adv = (Ad) request.getAttribute("advert");
+            if (adv != null) {
                 ads.add(adv);
             }
+            out.println("<html><body><link href=\"" + style + "\" rel=\"stylesheet\" type=\"text/css\"> ");
 
+            boolean mySession = false;
             if (session != null) {//уже вошли
-                //больше нет ошибки
-                request.getRequestDispatcher("links.html").include(request, response);
-                out.println("Hello, " + session.getAttribute("name"));
+                String name = (String) session.getAttribute("name");
+                if (name != null && name.equals("admin"))
+                    request.getRequestDispatcher("adminLinks.html").include(request, response);
+                else
+                    //больше нет ошибки
+                    request.getRequestDispatcher("links.html").include(request, response);
+                out.println("Hello, " + name);
+                mySession = true;
             } else {//еще не вошли
                 request.getRequestDispatcher("link.html").include(request, response);
             }
@@ -51,8 +65,16 @@ public class BoardServlet extends HttpServlet {
             //потом здесь выводить объявления
             for (Ad ad : ads) {
                 out.println("<h3>" + ad.getHeading() + "</h3><p>" + ad.getText() + "</p>");
-            }
 
+                if (mySession && ad.getHeading().substring(0, ad.getHeading().indexOf(" ")).equals((String) session.getAttribute("name"))) {//моё объявление
+                    out.println("<form action=\"/DeleteAdServlet\" method=\"get\" >" +
+                            "<input type=\"hidden\" name=\"heading\" value=\"" + ad.getHeading() + "\"><input type=\"submit\" value=\"delete\">" +
+                            "</form> ");
+
+                }
+            }
+            out.println("</html></body>");
+            out.close();
 
         } catch (ServletException e) {
             System.out.println("ServletException");

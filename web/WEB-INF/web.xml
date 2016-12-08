@@ -40,4 +40,32 @@
 		<servlet-name>Adding</servlet-name>
 		<url-pattern>/Adding</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AdminServlet</servlet-name>
+		<servlet-class>AdminServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminServlet</servlet-name>
+		<url-pattern>/Admin</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Delete</servlet-name>
+		<servlet-class>DeleteServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Delete</servlet-name>
+		<url-pattern>/Delete</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>DeleteAdServlet</servlet-name>
+		<servlet-class>DeleteAdServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DeleteAdServlet</servlet-name>
+		<url-pattern>/DeleteAdServlet</url-pattern>
+	</servlet-mapping>
+	
 </web-app>

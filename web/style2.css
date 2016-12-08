@@ -1,0 +1,13 @@
+h3 {
+    font-size: 150%;
+    font-style: italic;
+    color: darkblue;
+}
+a{
+    font-size: 20px;
+    color: limegreen;
+}
+p{
+    color: slategray;
+    font-style: italic;
+}
